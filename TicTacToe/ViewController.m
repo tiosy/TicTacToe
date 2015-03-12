@@ -49,13 +49,8 @@ self.whichPlayerLabel.text = @"X";
     CGPoint point = [sender locationInView:self.view];
 
 
-    //generate Random whichplayer
-    if ((turn % 2 ) == 0)
-    {
+
         self.whichPlayerLabel.text = @"X";
-    } else {
-        self.whichPlayerLabel.text = @"O";
-    }
 
 
     NSLog(@" current player is %@", self.whichPlayerLabel.text);
@@ -63,12 +58,8 @@ self.whichPlayerLabel.text = @"X";
     [self findLabelUsingPoint:point];
 
 
-    if ((turn % 2 ) == 0)
-    {
-        self.whichPlayerLabel.text = @"O";
-    } else {
-        self.whichPlayerLabel.text = @"X";
-    }
+           self.whichPlayerLabel.text = @"O";
+    
 
 
     ++turn;
