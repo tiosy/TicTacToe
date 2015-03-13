@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelNine;
 @property (weak, nonatomic) IBOutlet UILabel *whichPlayerLabel;
 
-
+@property (nonatomic) NSString *whoWon;
 
 
 
@@ -29,7 +29,7 @@
 
 @implementation ViewController
 {
-    NSString *whoWon;
+
     NSInteger integers[10]; // use 1-9; ignore index 0;
 
 
@@ -59,9 +59,52 @@
     //assign X or O to tapped Label
     [self findLabelUsingPoint:point];
 
-    [self checkWhoWon];
+    self.whoWon = [self checkWhoWon];
+
+    if(![self.whoWon isEqualToString:@""]){  // if not empty string, someone won
+
+        NSMutableString *str = [NSMutableString new];
+        [str appendFormat:@"Congradulations! Player %@ Won!", self.whoWon];
+
+        NSLog(@"00000 %@",str);
+
+       // UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str  message:str delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Play again" otherButtonTitles: nil];
+
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Play Again", nil];
+
+        //UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"New Stock Symbol" message:@"Enter new stock symbol" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
 
 
+        [alertView show];
+    }
+
+
+
+
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+
+    } else if (buttonIndex == 1){ //Play again
+
+        self.labelOne.text = @"";
+        self.labelTwo.text = @"";
+        self.labelThree.text = @"";
+        self.labelFour.text = @"";
+        self.labelFive.text = @"";
+        self.labelSix.text = @"";
+        self.labelSeven.text = @"";
+        self.labelEight.text = @"";
+        self.labelNine.text = @"";
+
+        self.whichPlayerLabel.text = @"X";
+
+        for (int i=1; i<10; i++) {
+            integers[i] = 0;
+        }
+    }
 }
 
 
@@ -73,10 +116,7 @@
     if(CGRectContainsPoint(self.labelOne.frame, point)){
 
         // place X or O
-
         integers[1] = [self assignLabelValue:self.labelOne];
-
-
     }
     else if(CGRectContainsPoint(self.labelTwo.frame, point)){
         // place X or O
@@ -152,40 +192,61 @@
 }
 
 
--(void) checkWhoWon
+-(NSString *) checkWhoWon
 {
+
+    NSString *string = [NSString new];
 
     // each X = 1; if there are 3 (Xs) in a line, the total is 3 and player X won
     // each O = 100; if there are 3 (Os) in a line, thetotal will be 300 and player O won
+    
+
     if(
-       [self isWon:integers[1] b:integers[2] c:integers[3] total:3]
-       || [self isWon:integers[4] b:integers[5] c:integers[6] total:3]
-       || [self isWon:integers[7] b:integers[8] c:integers[9] total:3]
-       || [self isWon:integers[1] b:integers[4] c:integers[7] total:3]
-       || [self isWon:integers[2] b:integers[5] c:integers[8] total:3]
-       || [self isWon:integers[3] b:integers[6] c:integers[9] total:3]
-       || [self isWon:integers[1] b:integers[5] c:integers[9] total:3]
-       || [self isWon:integers[3] b:integers[5] c:integers[5] total:3]
-    ){
+            [self isWon:integers[1] b:integers[2] c:integers[3] total:3]
+       ||   [self isWon:integers[4] b:integers[5] c:integers[6] total:3]
+       ||   [self isWon:integers[7] b:integers[8] c:integers[9] total:3]
+       ||   [self isWon:integers[1] b:integers[4] c:integers[7] total:3]
+       ||   [self isWon:integers[2] b:integers[5] c:integers[8] total:3]
+       ||   [self isWon:integers[3] b:integers[6] c:integers[9] total:3]
+       ||   [self isWon:integers[1] b:integers[5] c:integers[9] total:3]
+       ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:3]
+       )
+    {
         self.whichPlayerLabel.text = @"Player X Won";
+        string = @"X";
     }
 
-    if(
-       [self isWon:integers[1] b:integers[2] c:integers[3] total:300]
-       || [self isWon:integers[4] b:integers[5] c:integers[6] total:300]
-       || [self isWon:integers[7] b:integers[8] c:integers[9] total:300]
-       || [self isWon:integers[1] b:integers[4] c:integers[7] total:300]
-       || [self isWon:integers[2] b:integers[5] c:integers[8] total:300]
-       || [self isWon:integers[3] b:integers[6] c:integers[9] total:300]
-       || [self isWon:integers[1] b:integers[5] c:integers[9] total:300]
-       || [self isWon:integers[3] b:integers[5] c:integers[5] total:300]
-       ){
+    else if(
+            [self isWon:integers[1] b:integers[2] c:integers[3] total:300]
+       ||   [self isWon:integers[4] b:integers[5] c:integers[6] total:300]
+       ||   [self isWon:integers[7] b:integers[8] c:integers[9] total:300]
+       ||   [self isWon:integers[1] b:integers[4] c:integers[7] total:300]
+       ||   [self isWon:integers[2] b:integers[5] c:integers[8] total:300]
+       ||   [self isWon:integers[3] b:integers[6] c:integers[9] total:300]
+       ||   [self isWon:integers[1] b:integers[5] c:integers[9] total:300]
+       ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:300]
+       )
+    {
         self.whichPlayerLabel.text = @"Player O Won";
+        string = @"O";
     }
 
-   }
+    else {
+        string = @""; // no one won
+    }
 
--(BOOL) isWon: (NSInteger)a b: (NSInteger) b c:(NSInteger)c total: (NSInteger)total{
+    for (int i=1; i<10; i++) {
+        NSLog(@"dump array---%ld",integers[i]);
+    }
+
+     return string; //player who won
+
+}
+
+-(BOOL) isWon:(NSInteger) a b:(NSInteger) b c:(NSInteger) c total:(NSInteger) total {
+
+    // each X = 1; if there are 3 (Xs) in a line, the total is 3 and player X won
+    // each O = 100; if there are 3 (Os) in a line, thetotal will be 300 and player O won
 
     if((a+b+c) == total){
         return YES;
