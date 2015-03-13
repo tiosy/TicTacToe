@@ -68,7 +68,7 @@
 
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
 
-
+        alertView.transform = CGAffineTransformMakeTranslation(0.0,0.0);
         [alertView show];
     }
 
@@ -201,7 +201,7 @@
        ||   [self isWon:integers[2] b:integers[5] c:integers[8] total:3]
        ||   [self isWon:integers[3] b:integers[6] c:integers[9] total:3]
        ||   [self isWon:integers[1] b:integers[5] c:integers[9] total:3]
-       ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:3]
+       ||   [self isWon:integers[3] b:integers[5] c:integers[7] total:3]
        )
     {
         string = @"X";
@@ -215,7 +215,7 @@
        ||   [self isWon:integers[2] b:integers[5] c:integers[8] total:300]
        ||   [self isWon:integers[3] b:integers[6] c:integers[9] total:300]
        ||   [self isWon:integers[1] b:integers[5] c:integers[9] total:300]
-       ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:300]
+       ||   [self isWon:integers[3] b:integers[5] c:integers[7] total:300]
        )
     {
         string = @"O";
