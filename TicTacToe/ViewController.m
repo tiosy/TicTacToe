@@ -27,6 +27,7 @@
 @property CGPoint originalWhichPlayerLabelCenter;
 
 
+@property (weak, nonatomic) IBOutlet UILabel *seconds;
 
 
 @end
@@ -35,6 +36,11 @@
 {
 
     NSInteger integers[10]; // use 1-9; ignore index 0;
+
+    NSTimer *timer;
+    int remainingCounts;
+
+    UIAlertView *alertView;
 
 
 }
@@ -62,8 +68,30 @@
 }
 
 
+-(void)countDown {
+    if (--remainingCounts == 0) {
+        [timer invalidate];
+
+        alertView = [[UIAlertView alloc] initWithTitle:@"Time Out!" message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+
+        [alertView show];
+
+    }
+    self.seconds.text = [NSString stringWithFormat:@"%i", remainingCounts];
+}
+
 -(IBAction) doDrag:(UIPanGestureRecognizer *)sender
 {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        remainingCounts = 10;
+        timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                 target:self
+                                               selector:@selector(countDown)
+                                               userInfo:nil
+                                                repeats:YES];
+
+
+    }
 
     if (sender.state == UIGestureRecognizerStateEnded) {
 
@@ -106,7 +134,7 @@
 
         // CHECK if player wins
         //
-        UIAlertView *alertView;
+
         self.whoWon = [self checkWhoWon];
         if(![self.whoWon isEqualToString:@""]){
             // if not empty string, someone won, Display AlertView with message
@@ -169,7 +197,7 @@
         NSMutableString *str = [NSMutableString new];
         [str appendFormat:@"Congradulations! \n Player %@ Won!", self.whoWon];
 
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+        alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
 
         [alertView show];
     }
@@ -193,6 +221,8 @@
 
         self.whichPlayerLabel.text = @"X";
         self.theFlyingLabel.text = @"X";
+
+        self.seconds.text = @"10";
 
         for (int i=1; i<10; i++) {
             integers[i] = 0;
