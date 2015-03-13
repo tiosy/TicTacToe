@@ -31,6 +31,7 @@
 
     //first player
     self.whichPlayerLabel.text = @"X";
+    self.whichPlayerLabel.textColor = [UIColor blueColor];
 }
 
 
@@ -45,13 +46,7 @@
     //assign X or O to tapped Label
     [self findLabelUsingPoint:point];
 
-    // change to another player
-    if([self.whichPlayerLabel.text isEqualToString:@"X"]){
-        self.whichPlayerLabel.text = @"O";
-    }
-    else {
-        self.whichPlayerLabel.text = @"X";
-    }
+
 }
 
 
@@ -107,7 +102,9 @@
 -(void)assignLabelValue: (UILabel *) label
 {
     // place X or O
+    // if label already has "O" or "X"-> do nothing
     if([label.text isEqualToString:@""]){
+
         if([self.whichPlayerLabel.text isEqualToString:@"X"]){
             label.text= @"X";
             label.textColor = [UIColor blueColor];
@@ -115,9 +112,18 @@
             label.text= @"O";
             label.textColor = [UIColor redColor];
         }
+
+
+        // change to another player
+        if([self.whichPlayerLabel.text isEqualToString:@"X"]){
+            self.whichPlayerLabel.text = @"O";
+            self.whichPlayerLabel.textColor = [UIColor redColor];
+        }
+        else {
+            self.whichPlayerLabel.text = @"X";
+            self.whichPlayerLabel.textColor = [UIColor blueColor];
+        }
     }
-
-
 }
 
 
