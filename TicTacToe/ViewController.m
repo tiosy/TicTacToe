@@ -83,7 +83,7 @@
 -(IBAction) doDrag:(UIPanGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan) {
-        remainingCounts = 10;
+        remainingCounts = 20;
         timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                  target:self
                                                selector:@selector(countDown)
