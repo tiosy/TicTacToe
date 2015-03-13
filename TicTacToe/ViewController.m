@@ -64,15 +64,9 @@
     if(![self.whoWon isEqualToString:@""]){  // if not empty string, someone won
 
         NSMutableString *str = [NSMutableString new];
-        [str appendFormat:@"Congradulations! Player %@ Won!", self.whoWon];
+        [str appendFormat:@"Congradulations! \n Player %@ Won!", self.whoWon];
 
-        NSLog(@"00000 %@",str);
-
-       // UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str  message:str delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Play again" otherButtonTitles: nil];
-
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Done" otherButtonTitles:@"Play Again", nil];
-
-        //UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"New Stock Symbol" message:@"Enter new stock symbol" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
 
 
         [alertView show];
@@ -85,9 +79,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0) {
-
-    } else if (buttonIndex == 1){ //Play again
+    if (buttonIndex == 0){ //Play again
 
         self.labelOne.text = @"";
         self.labelTwo.text = @"";
