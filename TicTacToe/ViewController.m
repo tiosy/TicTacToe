@@ -23,6 +23,10 @@
 
 @property (nonatomic) NSString *whoWon;
 
+@property (weak, nonatomic) IBOutlet UILabel *theFlyingLabel;
+@property CGPoint originalWhichPlayerLabelCenter;
+
+
 
 
 @end
@@ -39,14 +43,110 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
-
-    
-
     //first player
     self.whichPlayerLabel.text = @"X";
-    self.whichPlayerLabel.textColor = [UIColor blueColor];
+    //self.whichPlayerLabel.textColor = [UIColor blueColor];
+
+    //keep whichPlayer center location
+    // ???? self.whichPlayer.center location is NOT CORRECT ????? use following for now
+    CGPoint p;
+    p.x = 200;
+    p.y =490;
+    //self.originalWhichPlayerLabelCenter = self.whichPlayerLabel.frame.origin;
+    self.originalWhichPlayerLabelCenter = p;
+    NSLog(@" whichplayer  center %f , %f", self.originalWhichPlayerLabelCenter.x,self.originalWhichPlayerLabelCenter.y);
+
+    NSLog(@" label ONE center %f , %f", self.labelOne.center.x,self.labelOne.center.y);
+
+    
 }
 
+
+-(IBAction) doDrag:(UIPanGestureRecognizer *)sender
+{
+
+    if (sender.state == UIGestureRecognizerStateEnded) {
+
+        CGPoint point = [sender locationInView:self.view];
+        self.theFlyingLabel.center = point;
+        //
+        //
+        //assign X or O to PanGestured Label
+        //
+        //
+        [self findLabelUsingPoint:point];
+
+        //
+        // Fly theFlyLabel back to whichPlayerLabel
+        //
+        [UIView animateWithDuration:1 animations:^{
+            self.theFlyingLabel.center = self.originalWhichPlayerLabelCenter;
+            self.theFlyingLabel.alpha = 0;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:1 animations:^{
+
+                // change to another player
+                if([self.theFlyingLabel.text isEqualToString:@"X"]){
+                    self.theFlyingLabel.text = @"O";
+                    self.theFlyingLabel.textColor = [UIColor redColor];
+                }
+                else {
+                    self.theFlyingLabel.text = @"X";
+                    self.theFlyingLabel.textColor = [UIColor blueColor];
+                }
+
+
+
+
+                self.theFlyingLabel.alpha =1;
+            }];
+        }];
+
+
+
+        // CHECK if player wins
+        //
+        self.whoWon = [self checkWhoWon];
+        if(![self.whoWon isEqualToString:@""]){
+            // if not empty string, someone won, Display AlertView with message
+
+            NSMutableString *str = [NSMutableString new];
+            [str appendFormat:@"Congradulations! \n Player %@ Won!", self.whoWon];
+
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+            
+            [alertView show];
+        }
+
+
+
+        //
+        // CHECK if all 9 labels been selected
+        //
+        //
+
+        if([self isAllSelected]){
+
+            UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"Game Over \n No One Won" message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+
+            [alertView2 show];
+
+        }
+
+
+
+
+
+
+    } else {
+
+        CGPoint point = [sender locationInView:self.view];
+        self.theFlyingLabel.center = point;
+
+        NSLog(@" current player is %@", self.whichPlayerLabel.text);
+    }
+
+}
 
 
 - (IBAction)onLabelTapped:(UITapGestureRecognizer *)sender
@@ -61,22 +161,20 @@
 
     self.whoWon = [self checkWhoWon];
 
-    if(![self.whoWon isEqualToString:@""]){  // if not empty string, someone won
+    if(![self.whoWon isEqualToString:@""]){
+        // if not empty string, someone won, Display AlertView with message
 
         NSMutableString *str = [NSMutableString new];
         [str appendFormat:@"Congradulations! \n Player %@ Won!", self.whoWon];
 
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
 
-        alertView.transform = CGAffineTransformMakeTranslation(0.0,0.0);
         [alertView show];
     }
 
-
-
-
 }
 
+//AlertView: if user click Play Again button: reset labels , Integers array and set the player to X
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0){ //Play again
@@ -167,12 +265,17 @@
         // change to another player
         if([self.whichPlayerLabel.text isEqualToString:@"X"]){
             self.whichPlayerLabel.text = @"O";
-            self.whichPlayerLabel.textColor = [UIColor redColor];
+            //self.whichPlayerLabel.textColor = [UIColor redColor];
         }
         else {
             self.whichPlayerLabel.text = @"X";
-            self.whichPlayerLabel.textColor = [UIColor blueColor];
+            //self.whichPlayerLabel.textColor = [UIColor blueColor];
         }
+
+
+
+
+
     }
 
     if([label.text isEqualToString:@"X"]){
@@ -246,5 +349,15 @@
     }
 }
 
+-(BOOL) isAllSelected {
+
+    for(int i=1; i<10; i++){
+        if(integers[i] == 0){
+            return NO;
+        }
+    }
+    return YES ;
+
+}
 
 @end
