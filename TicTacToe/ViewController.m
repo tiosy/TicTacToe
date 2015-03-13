@@ -24,24 +24,15 @@
 @end
 
 @implementation ViewController
-{
-    int turn;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
-//first player
-self.whichPlayerLabel.text = @"X";
-
-    turn = 1;
+    //first player
+    self.whichPlayerLabel.text = @"X";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 
 - (IBAction)onLabelTapped:(UITapGestureRecognizer *)sender
@@ -49,28 +40,24 @@ self.whichPlayerLabel.text = @"X";
     CGPoint point = [sender locationInView:self.view];
 
 
-
-        self.whichPlayerLabel.text = @"X";
-
-
     NSLog(@" current player is %@", self.whichPlayerLabel.text);
 
+    //assign X or O to tapped Label
     [self findLabelUsingPoint:point];
 
-
-           self.whichPlayerLabel.text = @"O";
-    
-
-
-    ++turn;
-
-
+    // change to another player
+    if([self.whichPlayerLabel.text isEqualToString:@"X"]){
+        self.whichPlayerLabel.text = @"O";
+    }
+    else {
+        self.whichPlayerLabel.text = @"X";
+    }
 }
 
 
 - (void)findLabelUsingPoint:(CGPoint)point
 {
-    //if point is in this frame?
+    // check if point is in this frame?
 
 
     if(CGRectContainsPoint(self.labelOne.frame, point)){
