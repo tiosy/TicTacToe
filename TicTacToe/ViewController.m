@@ -204,7 +204,6 @@
        ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:3]
        )
     {
-        self.whichPlayerLabel.text = @"Player X Won";
         string = @"X";
     }
 
@@ -219,7 +218,6 @@
        ||   [self isWon:integers[3] b:integers[5] c:integers[5] total:300]
        )
     {
-        self.whichPlayerLabel.text = @"Player O Won";
         string = @"O";
     }
 
