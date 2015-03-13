@@ -53,18 +53,40 @@
     self.whichPlayerLabel.text = @"X";
     //self.whichPlayerLabel.textColor = [UIColor blueColor];
 
+
+
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated
+{
+
     //keep whichPlayer center location
-    // ???? self.whichPlayer.center location is NOT CORRECT ????? use following for now
+
+    self.originalWhichPlayerLabelCenter = self.whichPlayerLabel.center;
+
+/*
     CGPoint p;
     p.x = 200;
     p.y =490;
-    //self.originalWhichPlayerLabelCenter = self.whichPlayerLabel.frame.origin;
     self.originalWhichPlayerLabelCenter = p;
-    NSLog(@" whichplayer  center %f , %f", self.originalWhichPlayerLabelCenter.x,self.originalWhichPlayerLabelCenter.y);
+
+    NSLog(@" whichplayer  center X= %f , Y= %f", self.whichPlayerLabel.center.x,self.whichPlayerLabel.center.y);
 
     NSLog(@" label ONE center %f , %f", self.labelOne.center.x,self.labelOne.center.y);
+*/
 
-    
+        //
+        //Timer starts here
+        //
+        remainingCounts = 20;
+        timer = [NSTimer scheduledTimerWithTimeInterval:1
+                                                 target:self
+                                               selector:@selector(countDown)
+                                               userInfo:nil
+                                                repeats:YES];
+
+
 }
 
 
@@ -77,21 +99,12 @@
         [alertView show];
 
     }
+
     self.seconds.text = [NSString stringWithFormat:@"%i", remainingCounts];
 }
 
 -(IBAction) doDrag:(UIPanGestureRecognizer *)sender
 {
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        remainingCounts = 20;
-        timer = [NSTimer scheduledTimerWithTimeInterval:1
-                                                 target:self
-                                               selector:@selector(countDown)
-                                               userInfo:nil
-                                                repeats:YES];
-
-
-    }
 
     if (sender.state == UIGestureRecognizerStateEnded) {
 
@@ -222,7 +235,7 @@
         self.whichPlayerLabel.text = @"X";
         self.theFlyingLabel.text = @"X";
 
-        self.seconds.text = @"10";
+        self.seconds.text = @"20";
 
         for (int i=1; i<10; i++) {
             integers[i] = 0;
