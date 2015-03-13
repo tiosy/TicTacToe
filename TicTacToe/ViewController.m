@@ -106,6 +106,7 @@
 
         // CHECK if player wins
         //
+        UIAlertView *alertView;
         self.whoWon = [self checkWhoWon];
         if(![self.whoWon isEqualToString:@""]){
             // if not empty string, someone won, Display AlertView with message
@@ -113,7 +114,7 @@
             NSMutableString *str = [NSMutableString new];
             [str appendFormat:@"Congradulations! \n Player %@ Won!", self.whoWon];
 
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+            alertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
             
             [alertView show];
         }
@@ -127,9 +128,10 @@
 
         if([self isAllSelected]){
 
-            UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"Game Over \n No One Won" message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
+             alertView = [[UIAlertView alloc] initWithTitle:@"Game Over \n No One Won" message:nil delegate:self cancelButtonTitle:@"Start New Game" otherButtonTitles:nil, nil];
 
-            [alertView2 show];
+            [alertView show];
+
 
         }
 
@@ -190,6 +192,7 @@
         self.labelNine.text = @"";
 
         self.whichPlayerLabel.text = @"X";
+        self.theFlyingLabel.text = @"X";
 
         for (int i=1; i<10; i++) {
             integers[i] = 0;
