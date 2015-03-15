@@ -79,7 +79,7 @@
         //
         //Timer starts here
         //
-        remainingCounts = 20;
+        remainingCounts = 60;
         timer = [NSTimer scheduledTimerWithTimeInterval:1
                                                  target:self
                                                selector:@selector(countDown)
